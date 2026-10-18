@@ -1,4 +1,4 @@
-# AirRhythm: Devpost write-up and demo plan
+# AirCare: Devpost write-up and demo plan
 
 ## Tagline
 Rehab you actually want to do, and an early warning for the care team when movement starts to slip.
@@ -16,11 +16,11 @@ Physical therapy is repetitive, and people stop doing it. Meanwhile the first si
 Play drums in mid-air with bare hands or any object, using just a webcam. Strike speed controls volume, like a real kit. A guided mode lights up drums to hit, which makes patients reach and reacts to how quickly they respond. Each session is turned into movement metrics: amplitude, reach, speed, smoothness, rhythm, left-right gap, accuracy and reaction time. A clinician dashboard compares every session with that patient's own baseline, flags meaningful changes, and says why each one matters.
 
 ## How we built it
-- Computer vision: MediaPipe Hands, plus geometric stick-tip detection that works on any straight object (falling back to fingertip, then palm), and a click-to-calibrate colour tracker.
-- Strike detection: a small state machine that fires when a quick downstroke slows, and uses where it stops as the hit spot. Almost no lockout, so fast rolls work (unit tested).
+- Computer vision: MediaPipe Hands with palm-center tracking and closed-fist/open-palm gesture recognition.
+- Hit detection: a deliberate closed-fist to open-palm transition creates one hit when the palm is over a drum, reducing accidental movement triggers.
 - Audio: pygame with a small buffer; volume comes from peak stroke speed.
 - Analytics: personalised baselines, direction-aware thresholds per metric, and trend detection over the last 6 sessions. Every flag carries a plain-language explanation.
-- Claude writes a short plain-language briefing for the therapist from aggregated numbers only; there is a template fallback so it works offline.
+- Google AI Studio Gemini writes a short plain-language briefing for the therapist from aggregated dashboard numbers only; there is a template fallback so it works offline. We use generative AI to make trends easier to understand, not to diagnose patients. No webcam video, raw images, or hand landmarks are sent.
 - Dashboard: dependency-free Python server with inline SVG charts.
 
 ## Challenges
@@ -36,14 +36,14 @@ Engagement is a clinical signal too. If someone stops playing, that is worth fla
 Clinical validation with occupational therapists, joint-level tracking with pose estimation, calibration against a known scale, and integration with care records.
 
 ## Built with
-Python, OpenCV, MediaPipe, pygame, NumPy, Claude API.
+Python, OpenCV, MediaPipe, pygame, NumPy, Google AI Studio Gemini API.
 
 ## Honest limits
 Screening and engagement aid, not diagnostic. Metrics are relative to the camera frame and meant to be compared with the patient's own history. Demo patients are synthetic and labelled as such.
 
 ## 2-minute demo script
-1. (0:00) "Stroke and senior-care patients drop out of rehab, and decline between visits goes unnoticed." Start `python main.py --guided` and play with bare hands. Soft hits quiet, hard hits loud.
-2. (0:30) Ask a judge for a pen. `python main.py --mode color`, click the tip, play. "Any object, no special hardware."
+1. (0:00) "Stroke and senior-care patients drop out of rehab, and decline between visits goes unnoticed." Start `python app.py` and choose Start AirCare.
+2. (0:30) Close a fist, place the palm over a drum, and open the hand. "The intentional gesture reduces accidental hits."
 3. (0:50) Switch to the dashboard (`python dashboard.py --patient demo_patient`). "This is the care team's view. Eleven sessions of synthetic history."
 4. (1:10) Point at the flags: left-right gap up 27 points against baseline, with the reason. "Caught from play, no clinic visit, with an explanation, not just an alert."
 5. (1:40) Show `demo_stable` for contrast. Say the limits: screening aid, relative measures, synthetic demo data.
@@ -52,5 +52,5 @@ Screening and engagement aid, not diagnostic. Metrics are relative to the camera
 ## Pre-demo checklist
 - Run `python seed_demo.py` on demo day so the sessions are recent (otherwise the engagement flag appears after 7 days).
 - Good front light, plain background, camera at chest height, about 1 metre back.
-- Test sound output and keep a spare coloured object (bright tape on a pen works best).
+- Test sound output and use even lighting so the full hand is visible.
 - Have `python dashboard.py --export report.html` output ready as a backup.
