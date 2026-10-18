@@ -140,10 +140,10 @@ In free play, the patient closes a fist, places the palm over a drum, and opens 
 hand. AirCare checks the palm position at the opening moment. A sound plays only when
 that palm is over a drum. Keeping the hand open does not repeatedly trigger hits.
 
-### Timed Whack-a-Drum
+### Timed
 
-Up to three drums light at once. Each target remains active for one second, and the
-patient earns a correct hit by opening their palm over an active drum before it expires.
+Two drums light at once. Each target remains active for two seconds, and the patient
+earns a correct hit by opening their palm over an active drum before it expires.
 Expired targets count as missed targets and are replaced.
 
 ### Reaction Test

@@ -20,7 +20,7 @@ The launcher provides a mode dropdown:
 
 - **Free Play** — play any visible drum.
 - **Guided** — one highlighted drum at a time.
-- **Timed Whack-a-Drum** — up to three targets are active for one second.
+- **Timed** — two targets are active for two seconds.
 - **Reaction Test** — exactly two drums are visible; each successful hit is replaced.
 
 The hit gesture is deliberate: close the fist, place the palm over a drum, then open
@@ -40,7 +40,9 @@ $env:GOOGLE_API_KEY = "your-replacement-key"
 $env:AIRCARE_GEMINI_MODEL = "gemini-2.0-flash"
 ```
 
-Without a key, AirCare uses a local summary template.
+Without a key, AirCare uses a local summary template. Each click of **Summarize**
+with a configured key sends a fresh request to Gemini, so the result is
+AI-generated and may consume Google AI Studio quota or credits.
 
 ## Direct commands
 

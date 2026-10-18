@@ -119,9 +119,6 @@ def get_all_patients_summary(patients):
     key = os.environ.get("GOOGLE_API_KEY") or os.environ.get("GEMINI_API_KEY")
     if not key:
         return _template_all_patient_summary(facts), "built-in summary"
-    cache_key = ("all-patients", tuple((f["patient"], f["sessions"], f["status"]) for f in facts))
-    if cache_key in _cache:
-        return _cache[cache_key], "Google Gemini"
     prompt = (
         "You are summarizing an AirCare rehabilitation dashboard for a clinician. "
         "Use only the supplied aggregate metrics and flags. Do not diagnose, speculate "
@@ -151,5 +148,4 @@ def get_all_patients_summary(patients):
         text = ""
     if not text:
         return _template_all_patient_summary(facts), "built-in summary"
-    _cache[cache_key] = text
     return text, "Google Gemini"

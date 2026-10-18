@@ -89,7 +89,7 @@ class AirCareApp:
                  font=("Segoe UI", 11)).grid(row=1, column=1, padx=(0, 18), pady=(5, 0), sticky="w")
         tk.Label(form, text="Game mode", bg="#131d26", fg="#dce7ec",
                  font=("Segoe UI", 10, "bold")).grid(row=0, column=2, sticky="w")
-        modes = ("Free Play", "Guided", "Timed Whack-a-Drum", "Reaction Test")
+        modes = ("Free Play", "Guided", "Timed", "Reaction Test")
         ttk.Combobox(form, textvariable=self.mode, values=modes, state="readonly",
                      width=22).grid(row=1, column=2, padx=(0, 18), pady=(5, 0), sticky="w")
         form.columnconfigure(0, weight=1)
@@ -131,7 +131,7 @@ class AirCareApp:
         mode = {
             "Free Play": "free",
             "Guided": "guided",
-            "Timed Whack-a-Drum": "timed",
+            "Timed": "timed",
             "Reaction Test": "reaction",
         }[self.mode.get()]
         cmd = [sys.executable, str(ROOT / "main.py"), "--patient", self._patient_name(),

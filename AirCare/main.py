@@ -2,7 +2,7 @@
 
   python main.py --patient alex                 # free play
   python main.py --patient alex --mode guided   # one highlighted target
-  python main.py --patient alex --mode timed    # up to three one-second targets
+  python main.py --patient alex --mode timed    # two two-second targets
   python main.py --patient alex --mode reaction # two active drums, replace on hit
 Keys: q finish & save | m mute | d debug view
 """
@@ -40,7 +40,7 @@ class TargetMode:
         self.last = zone
 
     def start(self, now):
-        count = {"guided": 1, "timed": 3, "reaction": 2}[self.kind]
+        count = {"guided": 1, "timed": 2, "reaction": 2}[self.kind]
         for _ in range(count):
             self._add(now)
 
@@ -61,7 +61,7 @@ class TargetMode:
                 self.rec.add_target(False)
                 self._add(now)
         elif self.kind == "timed":
-            expired = [z for z, started in self.active.items() if now - started > 1.0]
+            expired = [z for z, started in self.active.items() if now - started > 2.0]
             for zone in expired:
                 self.active.pop(zone, None)
                 self.rec.add_target(False)
