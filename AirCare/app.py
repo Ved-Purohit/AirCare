@@ -19,6 +19,21 @@ ROOT = Path(__file__).resolve().parent
 ASSET = ROOT / "assets" / "aircare_banner.png"
 
 
+def _frozen_target():
+    """Run a bundled child target when the launcher is packaged as an exe."""
+    if "--aircare-game" in sys.argv:
+        sys.argv.remove("--aircare-game")
+        from main import main as game_main
+        game_main()
+        return True
+    if "--aircare-dashboard" in sys.argv:
+        sys.argv.remove("--aircare-dashboard")
+        from dashboard import main as dashboard_main
+        dashboard_main()
+        return True
+    return False
+
+
 class AirCareApp:
     def __init__(self, root):
         self.root = root
@@ -134,8 +149,11 @@ class AirCareApp:
             "Timed": "timed",
             "Reaction Test": "reaction",
         }[self.mode.get()]
-        cmd = [sys.executable, str(ROOT / "main.py"), "--patient", self._patient_name(),
-               "--sensitivity", str(sensitivity), "--mode", mode]
+        if getattr(sys, "frozen", False):
+            cmd = [sys.executable, "--aircare-game"]
+        else:
+            cmd = [sys.executable, str(ROOT / "main.py")]
+        cmd += ["--patient", self._patient_name(), "--sensitivity", str(sensitivity), "--mode", mode]
         try:
             self.game_process = subprocess.Popen(cmd, cwd=str(ROOT))
         except OSError as exc:
@@ -151,7 +169,11 @@ class AirCareApp:
             self.status.config(text="Session finished. Open the report to review the latest data.")
 
     def open_report(self):
-        cmd = [sys.executable, str(ROOT / "dashboard.py"), "--patient", self._patient_name()]
+        if getattr(sys, "frozen", False):
+            cmd = [sys.executable, "--aircare-dashboard"]
+        else:
+            cmd = [sys.executable, str(ROOT / "dashboard.py")]
+        cmd += ["--patient", self._patient_name()]
         try:
             self.report_process = subprocess.Popen(cmd, cwd=str(ROOT))
         except OSError as exc:
@@ -201,4 +223,5 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    if not _frozen_target():
+        main()

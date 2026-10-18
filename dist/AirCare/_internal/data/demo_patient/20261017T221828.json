@@ -1,0 +1,45 @@
+{
+  "schema": 1,
+  "patient": "demo_patient",
+  "started_at": "2026-10-17T22:18:28",
+  "duration_s": 46.6,
+  "mode": "free",
+  "guided": false,
+  "synthetic": false,
+  "total_hits": 96,
+  "wrong_drum_hits": 0,
+  "off_drum_hits": 6,
+  "missed_targets": 0,
+  "hits_per_min": 123.7,
+  "hands": {
+    "Left": {
+      "hits": 28,
+      "mean_speed": 0.229,
+      "peak_speed": 0.771,
+      "stroke_amp": 12.837,
+      "workspace_v": 50.711,
+      "workspace_h": 17.336,
+      "smoothness": null
+    },
+    "Right": {
+      "hits": 68,
+      "mean_speed": 0.447,
+      "peak_speed": 1.036,
+      "stroke_amp": 13.804,
+      "workspace_v": 46.713,
+      "workspace_h": 29.86,
+      "smoothness": null
+    }
+  },
+  "metrics": {
+    "stroke_amp": 13.32,
+    "workspace_h": 23.598,
+    "mean_speed": 0.338,
+    "smoothness": null,
+    "timing_cv": 0.475,
+    "asymmetry_speed": 64.497,
+    "asymmetry_amp": 7.259,
+    "accuracy_pct": 93.75,
+    "reaction_s": null
+  }
+}

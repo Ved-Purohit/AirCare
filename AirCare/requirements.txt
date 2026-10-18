@@ -3,3 +3,4 @@ opencv-python
 numpy<2
 pygame
 python-dotenv
+pyinstaller

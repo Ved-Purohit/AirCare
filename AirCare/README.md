@@ -45,11 +45,13 @@ The project has two connected parts:
 - AirCare branding and the supplied visual banner.
 - Patient name input.
 - Sensitivity input.
-- Guided-mode selection.
+- Game-mode selection.
 - A **Start AirCare** button that launches the live game in the selected mode.
 - An **Open Report** button that launches the clinician dashboard in a browser.
 
-The launcher is intentionally a normal Python/Tkinter application rather than an executable bundle. This keeps the project transparent and easy to run during development.
+The repository also includes a Windows build under `dist/AirCare/`. Run
+`dist/AirCare/AirCare.exe` on Windows to use the packaged launcher without
+installing Python. The packaged build keeps patient data beside the executable.
 
 ### 2. Live rehabilitation game
 
@@ -79,6 +81,8 @@ The dashboard:
 - Explains each flag in plain language.
 - Can use Gemini to write a short briefing from aggregate metrics only.
 - Works offline with a built-in summary template when no API key is configured.
+- The report includes **Export PDF / Image**, which opens the browser print dialog
+  so the report can be saved as a PDF or sent to an image-capable printer.
 
 ---
 

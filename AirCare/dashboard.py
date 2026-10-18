@@ -50,6 +50,18 @@ th,td{padding:8px 12px;text-align:left;border-bottom:1px solid var(--line)}th{co
 .scroll{overflow-x:auto}
 footer{margin-top:36px;color:var(--mute);font-size:13px;max-width:80ch}
 .tag{font-size:12px;border:1px solid var(--line);border-radius:4px;padding:1px 6px;margin-left:6px;color:var(--mute)}
+.actions{display:flex;gap:10px;align-items:center}
+.export{border:0;border-radius:5px;padding:9px 14px;background:var(--accent);color:#fff;
+font:600 14px system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;cursor:pointer}
+.export:hover{filter:brightness(1.1)}
+@media print{
+  :root{--bg:#fff;--panel:#fff;--ink:#111;--mute:#444;--line:#bbb}
+  body{background:#fff}
+  main{max-width:none;padding:0}
+  nav,.export,.src{display:none}
+  .brief,.card,table{break-inside:avoid}
+  footer{margin-top:20px}
+}
 """
 
 STATUS = {"alert": "Needs review", "watch": "Worth watching", "ok": "Stable",
@@ -127,7 +139,8 @@ def render(patient=None):
                  f'<td>{s.get("total_hits", 0)}</td><td>{fmt(s.get("hits_per_min"))}</td><td>{fmt(m.get("stroke_amp"))}</td>'
                  f'<td>{fmt(m.get("mean_speed"))}</td><td>{fmt(m.get("accuracy_pct"))}</td></tr>')
 
-    body = f"""<main><header><div><h1>AirCare clinician view</h1></div><nav>{nav}</nav></header>
+    body = f"""<main><header><div><h1>AirCare clinician view</h1></div><div class="actions">
+<button class="export" type="button" onclick="window.print()">Export PDF / Image</button><nav>{nav}</nav></div></header>
 <section class="brief {a['status']}"><div class="status">{e(patient or 'No patient')}
  <span class="tag">{STATUS[a['status']]}</span>{'<span class="tag">Synthetic demo data</span>' if synthetic else ''}</div>
 <p>{e(text)}</p><div class="src">{'Written by Gemini from aggregated numbers only' if src == 'ai' else 'Built-in summary'}; {a['n_sessions']} sessions on file</div></section>

@@ -1,8 +1,9 @@
 """Shared configuration for AirCare."""
 from dataclasses import dataclass, replace
 from pathlib import Path
+import sys
 
-ROOT = Path(__file__).resolve().parent
+ROOT = Path(sys.executable).resolve().parent if getattr(sys, "frozen", False) else Path(__file__).resolve().parent
 SOUND_DIR = ROOT / "sounds"
 DATA_DIR = ROOT / "data"
 

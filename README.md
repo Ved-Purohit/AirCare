@@ -16,6 +16,11 @@ pip install -r requirements.txt
 python app.py
 ```
 
+On Windows, a packaged launcher is available at
+`AirCare/dist/AirCare/AirCare.exe` after downloading the repository. It includes
+the Python runtime and application dependencies, so Python is not required to
+run the executable.
+
 The launcher provides a mode dropdown:
 
 - **Free Play** — play any visible drum.
@@ -56,6 +61,9 @@ python dashboard.py --patient alex
 python dashboard.py --export report.html --patient alex
 python -m unittest discover -s tests
 ```
+
+In the browser report, click **Export PDF / Image** and use the native print
+dialog to save the report as a PDF or route it to an image-capable printer.
 
 AirCare is a screening and engagement aid, not a diagnostic device. Measurements are
 relative to the camera setup and should be compared with the same patient over time.
