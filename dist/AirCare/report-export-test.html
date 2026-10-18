@@ -1,0 +1,62 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>AirCare clinician view</title><style>
+:root{--bg:#eef1f4;--panel:#fff;--ink:#17212b;--mute:#5b6773;--line:#d9dee4;--accent:#0f6b64;
+--ok:#1f7a4d;--watch:#a8590b;--alert:#b3261e;--info:#4b5b73}
+@media (prefers-color-scheme:dark){:root{--bg:#12181e;--panel:#1b232b;--ink:#e8edf2;--mute:#9aa7b4;--line:#2d3944;
+--accent:#4fc3b8;--ok:#5cc489;--watch:#e8a055;--alert:#ff8a80;--info:#9db0cc}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+main{max-width:1040px;margin:0 auto;padding:28px 20px 60px}
+header{display:flex;flex-wrap:wrap;gap:12px 24px;align-items:baseline;justify-content:space-between;margin-bottom:20px}
+h1{font-size:26px;margin:0;letter-spacing:-.01em}
+h2{font-size:17px;margin:32px 0 12px}
+nav a{color:var(--accent);margin-right:14px;text-decoration:none;font-weight:600}
+nav a[aria-current]{color:var(--ink);border-bottom:2px solid var(--accent)}
+.brief{background:var(--panel);border:1px solid var(--line);border-left:6px solid var(--info);border-radius:6px;padding:18px 20px}
+.brief.alert{border-left-color:var(--alert)}.brief.watch{border-left-color:var(--watch)}.brief.ok{border-left-color:var(--ok)}
+.brief .status{font-weight:700;font-size:13px;color:var(--mute)}
+.brief p{margin:6px 0 0;font-size:17px;max-width:70ch}
+.src{font-size:12px;color:var(--mute);margin-top:8px}
+.flags{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.flags li{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:12px 16px;display:grid;grid-template-columns:96px 1fr;gap:12px}
+.pill{font-weight:700;font-size:13px}.pill.alert{color:var(--alert)}.pill.watch{color:var(--watch)}
+.flags b{display:block}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:14px 16px}
+.card.sev-alert{border-color:var(--alert)}.card.sev-watch{border-color:var(--watch)}
+.lbl{color:var(--mute);font-size:13px}.val{font-size:28px;font-weight:650;letter-spacing:-.02em}
+.unit{font-size:12px;color:var(--mute);font-weight:400}
+.delta{font-size:13px}.delta.bad{color:var(--alert)}.delta.good{color:var(--ok)}.delta.flat{color:var(--mute)}
+svg.spark{width:100%;height:56px;margin-top:6px}
+.spark .line{fill:none;stroke:var(--accent);stroke-width:2}.spark .base{stroke:var(--mute);stroke-dasharray:3 3;stroke-width:1}
+.spark .dot{fill:var(--accent)}.sev-alert .dot{fill:var(--alert)}.sev-watch .dot{fill:var(--watch)}
+.nodata{font-size:12px;color:var(--mute);margin-top:12px}
+table{width:100%;border-collapse:collapse;background:var(--panel);border:1px solid var(--line);border-radius:6px;overflow:hidden;font-size:14px}
+th,td{padding:8px 12px;text-align:left;border-bottom:1px solid var(--line)}th{color:var(--mute);font-weight:600}
+.scroll{overflow-x:auto}
+footer{margin-top:36px;color:var(--mute);font-size:13px;max-width:80ch}
+.tag{font-size:12px;border:1px solid var(--line);border-radius:4px;padding:1px 6px;margin-left:6px;color:var(--mute)}
+.actions{display:flex;gap:10px;align-items:center}
+.export{border:0;border-radius:5px;padding:9px 14px;background:var(--accent);color:#fff;
+font:600 14px system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;cursor:pointer}
+.export:hover{filter:brightness(1.1)}
+@media print{
+  :root{--bg:#fff;--panel:#fff;--ink:#111;--mute:#444;--line:#bbb}
+  body{background:#fff}
+  main{max-width:none;padding:0}
+  nav,.export,.src{display:none}
+  .brief,.card,table{break-inside:avoid}
+  footer{margin-top:20px}
+}
+</style></head><body><main><header><div><h1>AirCare clinician view</h1></div><div class="actions">
+<button class="export" type="button" onclick="window.print()">Export PDF / Image</button><nav></nav></div></header>
+<section class="brief no_data"><div class="status">demo_patient
+ <span class="tag">No data</span></div>
+<p>No sessions recorded yet.</p><div class="src">Built-in summary; 0 sessions on file</div></section>
+
+<h2>Trends against this patient's own baseline <span class="tag">dashed line = baseline</span></h2>
+<div class="grid"><p>No data yet. Play a session first: python main.py --patient NAME</p></div>
+<h2>Recent sessions</h2><div class="scroll"><table><thead><tr><th>Date</th><th>Type</th><th>Hits</th><th>Hits/min</th>
+<th>Amplitude</th><th>Speed</th><th>Accuracy %</th></tr></thead><tbody></tbody></table></div>
+<footer>AirCare is a screening and engagement aid, not a diagnostic device. Values are measured relative to the camera frame, so
+compare a patient only with their own earlier sessions, with the camera in a similar position. Flags are prompts for a clinician to look,
+not conclusions. Video never leaves the device; only summary numbers are stored.</footer></main></body></html>

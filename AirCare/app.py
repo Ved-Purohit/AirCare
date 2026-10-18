@@ -38,7 +38,7 @@ class AirCareApp:
     def __init__(self, root):
         self.root = root
         self.root.title("AirCare")
-        self.root.geometry("900x680")
+        self.root.geometry("900x705")
         self.root.minsize(760, 600)
         self.root.configure(bg="#0b1016")
         self.game_process = None

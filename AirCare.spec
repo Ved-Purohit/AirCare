@@ -1,11 +1,17 @@
 # -*- mode: python ; coding: utf-8 -*-
 
+from PyInstaller.utils.hooks import collect_data_files
+
 
 a = Analysis(
     ['AirCare/app.py'],
     pathex=['AirCare'],
     binaries=[],
-    datas=[('AirCare/assets', 'assets'), ('AirCare/sounds', 'sounds'), ('AirCare/data', 'data')],
+    datas=[
+        ('AirCare/assets', 'assets'),
+        ('AirCare/sounds', 'sounds'),
+        ('AirCare/data', 'data'),
+    ] + collect_data_files('mediapipe'),
     hiddenimports=[],
     hookspath=[],
     hooksconfig={},
