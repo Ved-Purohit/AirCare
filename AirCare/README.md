@@ -491,14 +491,14 @@ Create a Gemini API key in Google AI Studio, then configure it with:
 
 ```bash
 set GOOGLE_API_KEY=your_key_here
-set AIRCARE_GEMINI_MODEL=gemini-2.0-flash
+set AIRCARE_GEMINI_MODEL=gemini-3.8-flash
 ```
 
 On macOS/Linux:
 
 ```bash
 export GOOGLE_API_KEY=your_key_here
-export AIRCARE_GEMINI_MODEL=gemini-2.0-flash
+export AIRCARE_GEMINI_MODEL=gemini-3.8-flash
 ```
 
 If the key is not present, AirCare uses its local template and continues to work offline.

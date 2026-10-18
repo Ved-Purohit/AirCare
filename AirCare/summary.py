@@ -4,6 +4,11 @@ Uses Google Gemini through a Google AI Studio API key when configured. Only
 aggregated numbers are sent, never video or images. The built-in template
 keeps the report fully usable without an API key.
 """
+from dotenv import load_dotenv
+from pathlib import Path
+
+load_dotenv(Path(__file__).with_name(".env"))
+
 import json
 import os
 import urllib.request
@@ -43,7 +48,7 @@ def llm_summary(patient, a):
         )}]}],
         "generationConfig": {"maxOutputTokens": 300, "temperature": 0.2},
     }
-    model = os.environ.get("AIRCARE_GEMINI_MODEL", "gemini-2.0-flash")
+    model = os.environ.get("AIRCARE_GEMINI_MODEL", "gemini-3.8-flash")
     req = urllib.request.Request(
         f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={key}",
         data=json.dumps(body).encode(),
@@ -133,7 +138,7 @@ def get_all_patients_summary(patients):
         "contents": [{"parts": [{"text": prompt}]}],
         "generationConfig": {"maxOutputTokens": 900, "temperature": 0.2},
     }
-    model = os.environ.get("AIRCARE_GEMINI_MODEL", "gemini-2.0-flash")
+    model = os.environ.get("AIRCARE_GEMINI_MODEL", "gemini-3.8-flash")
     req = urllib.request.Request(
         f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={key}",
         data=json.dumps(body).encode(),

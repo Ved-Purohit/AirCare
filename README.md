@@ -37,7 +37,7 @@ Configure the key in the shell instead of committing it:
 
 ```powershell
 $env:GOOGLE_API_KEY = "your-replacement-key"
-$env:AIRCARE_GEMINI_MODEL = "gemini-2.0-flash"
+$env:AIRCARE_GEMINI_MODEL = "gemini-3.8-flash"
 ```
 
 Without a key, AirCare uses a local summary template. Each click of **Summarize**
