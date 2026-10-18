@@ -25,7 +25,7 @@ def _gemini_text(prompt, max_output_tokens=1800):
     key = os.environ.get("GOOGLE_API_KEY") or os.environ.get("GEMINI_API_KEY")
     if not key:
         return None
-    model = os.environ.get("AIRCARE_GEMINI_MODEL", "gemini-3.8-flash")
+    model = os.environ.get("AIRCARE_GEMINI_MODEL", "gemini-3.5-flash-lite")
     body = {
         "contents": [{"parts": [{"text": prompt}]}],
         "generationConfig": {"maxOutputTokens": max_output_tokens, "temperature": 0.2},
@@ -34,9 +34,9 @@ def _gemini_text(prompt, max_output_tokens=1800):
         f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={key}",
         data=json.dumps(body).encode(),
         headers={"content-type": "application/json"})
-    for attempt in range(3):
+    for attempt in range(2):
         try:
-            with urllib.request.urlopen(req, timeout=30) as response:
+            with urllib.request.urlopen(req, timeout=10) as response:
                 data = json.load(response)
             candidates = data.get("candidates") or []
             if not candidates:
@@ -55,7 +55,7 @@ def _gemini_text(prompt, max_output_tokens=1800):
                 return None
         except (OSError, ValueError, KeyError, TypeError):
             return None
-        time.sleep(1.5 * (attempt + 1))
+        time.sleep(1.5)
     return None
 
 
