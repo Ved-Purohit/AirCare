@@ -1,0 +1,45 @@
+{
+  "schema": 1,
+  "patient": "bob",
+  "started_at": "2026-10-17T16:01:12",
+  "duration_s": 62.4,
+  "mode": "hands",
+  "guided": false,
+  "synthetic": false,
+  "total_hits": 51,
+  "wrong_drum_hits": 0,
+  "off_drum_hits": 7,
+  "missed_targets": 0,
+  "hits_per_min": 49.1,
+  "hands": {
+    "Left": {
+      "hits": 2,
+      "mean_speed": 1.54,
+      "peak_speed": 2.036,
+      "stroke_amp": 6.012,
+      "workspace_v": 19.973,
+      "workspace_h": 74.085,
+      "smoothness": 0.547
+    },
+    "Right": {
+      "hits": 49,
+      "mean_speed": 1.199,
+      "peak_speed": 1.566,
+      "stroke_amp": 11.598,
+      "workspace_v": 25.398,
+      "workspace_h": 68.048,
+      "smoothness": 0.603
+    }
+  },
+  "metrics": {
+    "stroke_amp": 11.598,
+    "workspace_h": 68.048,
+    "mean_speed": 1.199,
+    "smoothness": 0.603,
+    "timing_cv": 0.673,
+    "asymmetry_speed": null,
+    "asymmetry_amp": null,
+    "accuracy_pct": 86.275,
+    "reaction_s": null
+  }
+}
