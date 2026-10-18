@@ -76,7 +76,10 @@ def analyze(sessions, now=None):
     if not sessions:
         return out
     latest = sessions[-1]
-    peers = [s for s in sessions if s.get("guided") == latest.get("guided")]
+    if latest.get("mode"):
+        peers = [s for s in sessions if s.get("mode") == latest.get("mode")]
+    else:
+        peers = [s for s in sessions if s.get("guided") == latest.get("guided")]
     if len(peers) < 3:
         peers = sessions
     base_sessions = peers[:-1][:3]

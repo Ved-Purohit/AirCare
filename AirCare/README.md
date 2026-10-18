@@ -46,7 +46,7 @@ The project has two connected parts:
 - Patient name input.
 - Sensitivity input.
 - Guided-mode selection.
-- A **Start AirCare** button that launches the live game.
+- A **Start AirCare** button that launches the live game in the selected mode.
 - An **Open Report** button that launches the clinician dashboard in a browser.
 
 The launcher is intentionally a normal Python/Tkinter application rather than an executable bundle. This keeps the project transparent and easy to run during development.
@@ -139,6 +139,19 @@ The application does not require a database server, frontend build system, or cl
 In free play, the patient closes a fist, places the palm over a drum, and opens the
 hand. AirCare checks the palm position at the opening moment. A sound plays only when
 that palm is over a drum. Keeping the hand open does not repeatedly trigger hits.
+
+### Timed Whack-a-Drum
+
+Up to three drums light at once. Each target remains active for one second, and the
+patient earns a correct hit by opening their palm over an active drum before it expires.
+Expired targets count as missed targets and are replaced.
+
+### Reaction Test
+
+Exactly two drums remain visible as active targets. When one is hit, it disappears
+immediately and a new drum appears, creating a continuous reaction-and-accuracy test.
+
+The launcher mode dropdown starts `free`, `guided`, `timed`, or `reaction` sessions.
 
 ### Guided mode
 

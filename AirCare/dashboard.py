@@ -121,7 +121,9 @@ def render(patient=None):
     rows = ""
     for s in reversed(sessions[-12:]):
         m = s.get("metrics") or {}
-        rows += (f'<tr><td>{e(s["started_at"].replace("T", " ")[:16])}</td><td>{"Guided" if s.get("guided") else "Free play"}</td>'
+        mode_label = {"free": "Free play", "guided": "Guided", "timed": "Timed", "reaction": "Reaction"}.get(
+            s.get("mode"), "Guided" if s.get("guided") else "Free play")
+        rows += (f'<tr><td>{e(s["started_at"].replace("T", " ")[:16])}</td><td>{mode_label}</td>'
                  f'<td>{s.get("total_hits", 0)}</td><td>{fmt(s.get("hits_per_min"))}</td><td>{fmt(m.get("stroke_amp"))}</td>'
                  f'<td>{fmt(m.get("mean_speed"))}</td><td>{fmt(m.get("accuracy_pct"))}</td></tr>')
 

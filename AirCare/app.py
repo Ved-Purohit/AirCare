@@ -11,9 +11,8 @@ import sys
 import tkinter as tk
 from tkinter import messagebox, ttk
 
-from analytics import analyze
-from storage import load_sessions
-from summary import get_summary
+from storage import list_patients
+from summary import get_all_patients_summary
 
 
 ROOT = Path(__file__).resolve().parent
@@ -45,7 +44,7 @@ class AirCareApp:
         style.configure("Muted.TLabel", background="#0b1016", foreground="#9eb0bb")
 
         self.patient = tk.StringVar(value="demo_patient")
-        self.guided = tk.BooleanVar(value=False)
+        self.mode = tk.StringVar(value="Free Play")
         self.sensitivity = tk.StringVar(value="0.8")
 
         self._build()
@@ -88,10 +87,11 @@ class AirCareApp:
         tk.Entry(form, textvariable=self.sensitivity, width=10, relief="flat",
                  bg="#24313c", fg="#ffffff", insertbackground="#ffffff",
                  font=("Segoe UI", 11)).grid(row=1, column=1, padx=(0, 18), pady=(5, 0), sticky="w")
-        tk.Checkbutton(form, text="Start guided rehabilitation", variable=self.guided,
-                       bg="#131d26", fg="#dce7ec", selectcolor="#24313c",
-                       activebackground="#131d26", activeforeground="#ffffff",
-                       font=("Segoe UI", 10)).grid(row=1, column=2, sticky="w")
+        tk.Label(form, text="Game mode", bg="#131d26", fg="#dce7ec",
+                 font=("Segoe UI", 10, "bold")).grid(row=0, column=2, sticky="w")
+        modes = ("Free Play", "Guided", "Timed Whack-a-Drum", "Reaction Test")
+        ttk.Combobox(form, textvariable=self.mode, values=modes, state="readonly",
+                     width=22).grid(row=1, column=2, padx=(0, 18), pady=(5, 0), sticky="w")
         form.columnconfigure(0, weight=1)
 
         buttons = tk.Frame(outer, bg="#0b1016")
@@ -128,10 +128,14 @@ class AirCareApp:
         except ValueError:
             messagebox.showerror("Invalid sensitivity", "Sensitivity must be a positive number.")
             return
+        mode = {
+            "Free Play": "free",
+            "Guided": "guided",
+            "Timed Whack-a-Drum": "timed",
+            "Reaction Test": "reaction",
+        }[self.mode.get()]
         cmd = [sys.executable, str(ROOT / "main.py"), "--patient", self._patient_name(),
-               "--sensitivity", str(sensitivity)]
-        if self.guided.get():
-            cmd.append("--guided")
+               "--sensitivity", str(sensitivity), "--mode", mode]
         try:
             self.game_process = subprocess.Popen(cmd, cwd=str(ROOT))
         except OSError as exc:
@@ -156,15 +160,29 @@ class AirCareApp:
         self.status.config(text="Opening the AirCare clinician report in your browser.")
 
     def summarize(self):
-        patient = self._patient_name()
-        sessions = load_sessions(patient)
-        if not sessions:
-            messagebox.showinfo("AirCare summary", f"No saved sessions were found for {patient}.")
+        patients = list_patients()
+        if not patients:
+            messagebox.showinfo("AirCare summary", "No saved patient sessions were found.")
             return
-        analysis = analyze(sessions)
-        text, source = get_summary(patient, sessions, analysis)
-        messagebox.showinfo("AirCare overall summary", f"{text}\n\nSource: "
-                            f"{'Google Gemini' if source == 'ai' else 'AirCare built-in summary'}")
+        self.status.config(text="Preparing the all-patient summary...")
+        self.root.update_idletasks()
+        text, source = get_all_patients_summary(patients)
+        self._show_summary(text, source)
+
+    def _show_summary(self, text, source):
+        dialog = tk.Toplevel(self.root)
+        dialog.title("AirCare overall summary")
+        dialog.geometry("760x600")
+        dialog.configure(bg="#0b1016")
+        tk.Label(dialog, text=f"AirCare overall summary ({source})",
+                 bg="#0b1016", fg="#edf4f7",
+                 font=("Segoe UI", 15, "bold")).pack(anchor="w", padx=18, pady=(16, 8))
+        box = tk.Text(dialog, wrap="word", bg="#131d26", fg="#edf4f7",
+                      insertbackground="#ffffff", relief="flat", padx=14, pady=12)
+        box.pack(fill="both", expand=True, padx=18, pady=(0, 18))
+        box.insert("1.0", text)
+        box.configure(state="disabled")
+        self.status.config(text="Summary ready.")
 
     def exit_app(self):
         if self.game_process and self.game_process.poll() is None:
